@@ -4,6 +4,7 @@
 
 int main(int argc, char* argv[]) {
     bool testing = false;
+    bool graphic = false;
     std::string loadFile;
     unsigned seed = std::random_device{}();
 
@@ -15,10 +16,12 @@ int main(int argc, char* argv[]) {
             loadFile = argv[++i];
         } else if (arg == "-seed" && i + 1 < argc) {
             seed = std::stoul(argv[++i]);
+        } else if (arg == "-display") {
+            graphic = true;
         }
     }
 
-    Game game(testing, seed);
+    Game game(testing, seed, graphic);
 
     if (!loadFile.empty()) {
         game.loadGame(loadFile);

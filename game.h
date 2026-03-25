@@ -8,10 +8,13 @@
 class Player;
 class Board;
 class OwnableSquare;
+class GraphicDisplay;
 
 class Game {
     std::vector<Player*> players;
     Board* board;
+    GraphicDisplay* gfx;
+    bool graphicMode;
     int currentPlayerIdx;
     bool testingMode;
     std::mt19937 rng;
@@ -25,7 +28,7 @@ class Game {
     Player* creditor;  // nullptr = owed to bank
 
 public:
-    Game(bool testing = false, unsigned seed = std::random_device{}());
+    Game(bool testing = false, unsigned seed = std::random_device{}(), bool graphic = false);
     ~Game();
 
     void startGame();

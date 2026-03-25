@@ -1,21 +1,30 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -g
+CXXFLAGS = -std=c++17 -Wall -Wextra -g -I/opt/X11/include
 
 OBJS = main.o game.o board.o player.o \
        academicbuilding.o residence.o gym.o \
        ownablesquare.o nonownable.o \
        slc.o needleshall.o cardeffect.o \
-       squarefactory.o auction.o savemanager.o
+       squarefactory.o auction.o savemanager.o \
+       window.o graphicdisplay.o
 
 watopoly: $(OBJS)
-	$(CXX) $(CXXFLAGS) -o watopoly $(OBJS)
+	$(CXX) $(CXXFLAGS) -o watopoly $(OBJS) -lX11 -L/opt/X11/lib
 
 main.o: main.cc game.h
 	$(CXX) $(CXXFLAGS) -c main.cc
 
 game.o: game.cc game.h board.h player.h square.h ownablesquare.h \
-        academicbuilding.h residence.h gym.h nonownable.h auction.h savemanager.h
+        academicbuilding.h residence.h gym.h nonownable.h auction.h savemanager.h \
+        graphicdisplay.h
 	$(CXX) $(CXXFLAGS) -c game.cc
+
+window.o: window.cc window.h
+	$(CXX) $(CXXFLAGS) -c window.cc
+
+graphicdisplay.o: graphicdisplay.cc graphicdisplay.h window.h board.h \
+                   player.h ownablesquare.h academicbuilding.h observer.h
+	$(CXX) $(CXXFLAGS) -c graphicdisplay.cc
 
 board.o: board.cc board.h square.h player.h academicbuilding.h \
          residence.h gym.h nonownable.h slc.h needleshall.h

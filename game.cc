@@ -1,4 +1,5 @@
 #include "game.h"
+#include "graphicdisplay.h"
 #include "board.h"
 #include "player.h"
 #include "square.h"
@@ -18,16 +19,19 @@
 #include <cctype>
 #include <set>
 
-Game::Game(bool testing, unsigned seed)
-    : board{nullptr}, currentPlayerIdx{0}, testingMode{testing},
+Game::Game(bool testing, unsigned seed, bool graphic)
+    : board{nullptr}, gfx{nullptr}, graphicMode{graphic},
+      currentPlayerIdx{0}, testingMode{testing},
       rng{seed}, hasRolled{false}, doublesCount{0}, lastDiceSum{0},
       needToPayDebt{false}, debtAmount{0}, creditor{nullptr} {
     board = new Board(rng);
+    if (graphicMode) gfx = new GraphicDisplay(board, &players);
 }
 
 Game::~Game() {
     for (auto* p : players) delete p;
     delete board;
+    delete gfx;
 }
 
 static std::string toLower(std::string s) {
@@ -89,7 +93,9 @@ void Game::startGame() {
     for (auto* p : players) {
         p->attach(board);
     }
+    if (gfx) { for (auto* p : players) p->attach(gfx); }
     board->display();
+    if (gfx) gfx->redraw();
     run();
 }
 
@@ -99,7 +105,9 @@ void Game::loadGame(const std::string& file) {
         return;
     }
     for (auto* p : players) p->attach(board);
+    if (gfx) { for (auto* p : players) p->attach(gfx); }
     board->display();
+    if (gfx) gfx->redraw();
     run();
 }
 
@@ -209,19 +217,23 @@ void Game::runTurn(Player& p) {
             std::getline(ss, args);
             doTrade(p, args);
             board->display();
+            if (gfx) gfx->redraw();
         } else if (cmd == "improve") {
             std::string prop, action;
             ss >> prop >> action;
             doImprove(p, prop, toLower(action) == "buy");
             board->display();
+            if (gfx) gfx->redraw();
         } else if (cmd == "mortgage") {
             std::string prop; ss >> prop;
             doMortgage(p, prop);
             board->display();
+            if (gfx) gfx->redraw();
         } else if (cmd == "unmortgage") {
             std::string prop; ss >> prop;
             doUnmortgage(p, prop);
             board->display();
+            if (gfx) gfx->redraw();
         } else if (cmd == "bankrupt") {
             std::cout << "You can only declare bankruptcy when you owe more than you have.\n";
         } else if (cmd == "assets") {
@@ -373,6 +385,7 @@ void Game::handleTimsTurn(Player& p) {
 
     currentPlayerIdx = (currentPlayerIdx + 1) % players.size();
     board->display();
+    if (gfx) gfx->redraw();
 }
 
 void Game::doRoll(Player& p, int d1, int d2) {
@@ -390,6 +403,7 @@ void Game::doRoll(Player& p, int d1, int d2) {
             hasRolled = true;
             doublesCount = 0;
             board->display();
+            if (gfx) gfx->redraw();
             return;
         }
         std::cout << "Doubles! Will roll again.\n";
@@ -409,6 +423,7 @@ void Game::doRoll(Player& p, int d1, int d2) {
         hasRolled = true;
     }
     if (!p.isBankrupt()) board->display();
+    if (!p.isBankrupt() && gfx) gfx->redraw();
 }
 
 void Game::movePlayer(Player& p, int steps) {
