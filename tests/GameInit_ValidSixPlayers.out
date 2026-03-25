@@ -1,0 +1,91 @@
+Enter number of players (2-6): Player 1 name: Choose piece (G=Goose, B=GRT Bus, D=Doughnut, P=Professor, S=Student, $=Money, L=Laptop, T=Pink tie): Player 2 name: Choose piece (G=Goose, B=GRT Bus, D=Doughnut, P=Professor, S=Student, $=Money, L=Laptop, T=Pink tie): Player 3 name: Choose piece (G=Goose, B=GRT Bus, D=Doughnut, P=Professor, S=Student, $=Money, L=Laptop, T=Pink tie): Player 4 name: Choose piece (G=Goose, B=GRT Bus, D=Doughnut, P=Professor, S=Student, $=Money, L=Laptop, T=Pink tie): Player 5 name: Choose piece (G=Goose, B=GRT Bus, D=Doughnut, P=Professor, S=Student, $=Money, L=Laptop, T=Pink tie): Player 6 name: Choose piece (G=Goose, B=GRT Bus, D=Doughnut, P=Professor, S=Student, $=Money, L=Laptop, T=Pink tie): _________________________________________________________________________________________
+|Goose  |       |NEEDLES|       |       |V1     |       |       |CIF    |       |GO TO  |
+|Nesting|-------|HALL   |-------|-------|       |-------|-------|       |-------|TIMS   |
+|       |EV1    |       |EV2    |EV3    |       |PHYS   |B1     |       |B2     |       |
+|       |       |       |       |       |       |       |       |       |       |       |
+|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|
+|       |                                                                       |       |
+|-------|                                                                       |-------|
+|OPT    |                                                                       |EIT    |
+|       |                                                                       |       |
+|_______|                                                                       |_______|
+|       |                                                                       |       |
+|-------|                                                                       |-------|
+|BMH    |                                                                       |ESC    |
+|       |                                                                       |       |
+|_______|                                                                       |_______|
+|SLC    |                                                                       |SLC    |
+|       |                                                                       |       |
+|       |                                                                       |       |
+|       |                                                                       |       |
+|_______|                                                                       |_______|
+|       |                                                                       |       |
+|-------|                                                                       |-------|
+|LHI    |                                                                       |C2     |
+|       |                                                                       |       |
+|_______|                                                                       |_______|
+|UWP    |                    # # ## ##### ### ### ### # # #                     |NEEDLES|
+|       |                     # # #  # # # #  # #   # # # #                     |HALL   |
+|       |                     ### #### # ### ## # # # #  #                      |       |
+|       |                     ### #  # # #   # # # # #   #                      |       |
+|_______|                                                                       |_______|
+|       |                                                                       |REV    |
+|-------|                                                                       |       |
+|CPH    |                                                                       |       |
+|       |                                                                       |       |
+|_______|                                                                       |_______|
+|       |                                                                       |       |
+|-------|                                                                       |-------|
+|DWE    |                                                                       |MC     |
+|       |                                                                       |       |
+|_______|                                                                       |_______|
+|PAC    |                                                                       |COOP   |
+|       |                                                                       |FEE    |
+|       |                                                                       |       |
+|       |                                                                       |       |
+|_______|                                                                       |_______|
+|       |                                                                       |       |
+|-------|                                                                       |-------|
+|RCH    |                                                                       |DC     |
+|       |                                                                       |       |
+|_______|                                                                       |_______|
+|DC Tims|       |       |NEEDLES|       |MKV    |TUITION|       |SLC    |       |COLLECT|
+|Line   |-------|-------|HALL   |-------|       |       |-------|       |-------|OSAP   |
+|       |HH     |PAS    |       |ECH    |       |       |ML     |       |AL     |       |
+|       |       |       |       |       |       |       |       |       |       |GBDPS$ |
+|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|
+
+--- P1's turn (position: Collect OSAP, money: $1500) ---
+> P1 (piece: G)
+  Money: $1500
+  Total worth: $1500
+  Roll Up the Rim cups: 0
+  Properties: none
+P2 (piece: B)
+  Money: $1500
+  Total worth: $1500
+  Roll Up the Rim cups: 0
+  Properties: none
+P3 (piece: D)
+  Money: $1500
+  Total worth: $1500
+  Roll Up the Rim cups: 0
+  Properties: none
+P4 (piece: P)
+  Money: $1500
+  Total worth: $1500
+  Roll Up the Rim cups: 0
+  Properties: none
+P5 (piece: S)
+  Money: $1500
+  Total worth: $1500
+  Roll Up the Rim cups: 0
+  Properties: none
+P6 (piece: $)
+  Money: $1500
+  Total worth: $1500
+  Roll Up the Rim cups: 0
+  Properties: none
+> You must roll first.
+> 
+*** P1 wins Watopoly! ***
