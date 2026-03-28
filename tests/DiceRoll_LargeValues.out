@@ -59,7 +59,7 @@ Enter number of players (2-6): Player 1 name: Choose piece (G=Goose, B=GRT Bus, 
 > Alice rolls 20 + 15 = 35
 Alice moves to Needles Hall
 Alice lands on Needles Hall!
-Alice receives $25
+Alice receives $100
 _________________________________________________________________________________________
 |Goose  |       |NEEDLES|       |       |V1     |       |       |CIF    |       |GO TO  |
 |Nesting|-------|HALL   |-------|-------|       |-------|-------|       |-------|TIMS   |
@@ -172,6 +172,7 @@ ________________________________________________________________________________
 |       |HH     |PAS    |       |ECH    |       |       |ML     |       |AL     |       |
 |       |       |       |       |       |       |       |       |       |       |B      |
 |_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|
+(Tip: type 'next' to end your turn, or use other commands first)
 > 
 --- Bob's turn (position: Collect OSAP, money: $1500) ---
 > Bob rolls 3 + 4 = 7
@@ -290,7 +291,8 @@ ________________________________________________________________________________
 |       |HH     |PAS    |       |ECH    |       |       |ML     |       |AL     |       |
 |       |       |       |B      |       |       |       |       |       |       |       |
 |_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|
+(Tip: type 'next' to end your turn, or use other commands first)
 > 
---- Alice's turn (position: Needles Hall, money: $1525) ---
+--- Alice's turn (position: Needles Hall, money: $1600) ---
 > 
 *** Alice wins Watopoly! ***

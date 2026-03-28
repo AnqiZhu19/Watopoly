@@ -115,13 +115,14 @@ ________________________________________________________________________________
 |       |HH     |PAS    |       |ECH    |       |       |ML     |       |AL     |       |
 |G      |       |       |       |       |       |       |       |       |       |B      |
 |_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|
+(Tip: type 'next' to end your turn, or use other commands first)
 > You have already rolled.
 > 
 --- Bob's turn (position: Collect OSAP, money: $1500) ---
 > Bob rolls 3 + 4 = 7
 Bob moves to Needles Hall
 Bob lands on Needles Hall!
-Bob loses $50
+Bob receives $100
 _________________________________________________________________________________________
 |Goose  |       |NEEDLES|       |       |V1     |       |       |CIF    |       |GO TO  |
 |Nesting|-------|HALL   |-------|-------|       |-------|-------|       |-------|TIMS   |
@@ -234,6 +235,7 @@ ________________________________________________________________________________
 |       |HH     |PAS    |       |ECH    |       |       |ML     |       |AL     |       |
 |G      |       |       |B      |       |       |       |       |       |       |       |
 |_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|
+(Tip: type 'next' to end your turn, or use other commands first)
 > 
 --- Alice's turn (position: DC Tims Line, money: $1500) ---
 > 
