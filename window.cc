@@ -1,6 +1,5 @@
 #include "window.h"
 #include <stdexcept>
-#include <unistd.h>
 
 Xwindow::Xwindow(int width, int height) : wd{width}, ht{height} {
     d = XOpenDisplay(nullptr);
@@ -39,7 +38,6 @@ Xwindow::Xwindow(int width, int height) : wd{width}, ht{height} {
     XSetNormalHints(d, w, &hints);
 
     XSynchronize(d, True);
-    usleep(1000);
 }
 
 Xwindow::~Xwindow() {

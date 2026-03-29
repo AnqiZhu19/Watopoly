@@ -16,8 +16,6 @@
 #include <sstream>
 #include <algorithm>
 #include <string>
-#include <cctype>
-#include <set>
 
 Game::Game(bool testing, unsigned seed, bool graphic)
     : board{nullptr}, gfx{nullptr}, graphicMode{graphic},
@@ -35,7 +33,7 @@ Game::~Game() {
 }
 
 static std::string toLower(std::string s) {
-    for (char& c : s) c = std::tolower(c);
+    for (char& c : s) if (c >= 'A' && c <= 'Z') c = c - 'A' + 'a';
     return s;
 }
 
@@ -51,7 +49,7 @@ void Game::startGame() {
         }
     }
 
-    std::set<char> usedPieces;
+    std::vector<char> usedPieces;
     const std::string validPieces = "GBDPSL$T";
 
     for (int i = 0; i < n; ++i) {
@@ -75,16 +73,16 @@ void Game::startGame() {
                       << "S=Student, $=Money, L=Laptop, T=Pink tie): ";
             std::string line;
             if (!std::getline(std::cin, line) || line.empty()) continue;
-            piece = std::toupper(line[0]);
+            piece = (line[0] >= 'a' && line[0] <= 'z') ? (char)(line[0] - 'a' + 'A') : line[0];
             if (validPieces.find(piece) == std::string::npos) {
                 std::cout << "Invalid piece.\n";
-            } else if (usedPieces.count(piece)) {
+            } else if (std::find(usedPieces.begin(), usedPieces.end(), piece) != usedPieces.end()) {
                 std::cout << "Piece already taken.\n";
             } else {
                 valid = true;
             }
         }
-        usedPieces.insert(piece);
+        usedPieces.push_back(piece);
         players.push_back(new Player(name, piece));
     }
 
