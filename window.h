@@ -1,6 +1,4 @@
-#ifndef WINDOW_H
-#define WINDOW_H
-
+#pragma once
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <string>
@@ -27,5 +25,3 @@ public:
     void fillRectangle(int x, int y, int width, int height, int colour=Black);
     void drawString(int x, int y, const std::string& msg, int colour=Black);
 };
-
-#endif

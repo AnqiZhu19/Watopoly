@@ -1,6 +1,4 @@
-#ifndef PLAYER_H
-#define PLAYER_H
-
+#pragma once
 #include "observer.h"
 #include <string>
 #include <vector>
@@ -52,5 +50,3 @@ public:
     void declareBankrupt() { bankrupt = true; }
     void displayAssets() const;
 };
-
-#endif

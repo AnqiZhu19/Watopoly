@@ -1,6 +1,4 @@
-#ifndef OWNABLESQUARE_H
-#define OWNABLESQUARE_H
-
+#pragma once
 #include "square.h"
 #include <string>
 
@@ -34,5 +32,3 @@ public:
     void getDisplayLines(std::string lines[4], const std::string& players) const override;
     virtual std::string getImprovementLine() const { return "       "; }
 };
-
-#endif

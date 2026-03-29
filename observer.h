@@ -1,6 +1,4 @@
-#ifndef OBSERVER_H
-#define OBSERVER_H
-
+#pragma once
 #include <vector>
 #include <algorithm>
 
@@ -22,5 +20,3 @@ public:
     }
     virtual ~Subject() = default;
 };
-
-#endif

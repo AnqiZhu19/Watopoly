@@ -1,6 +1,4 @@
-#ifndef SQUAREFACTORY_H
-#define SQUAREFACTORY_H
-
+#pragma once
 #include <string>
 #include <random>
 
@@ -21,5 +19,3 @@ class TestingSquareFactory : public SquareFactory {
 public:
     Square* createSquare(const std::string& name, int pos, std::mt19937& rng) override;
 };
-
-#endif

@@ -1,6 +1,4 @@
-#ifndef CARDEFFECT_H
-#define CARDEFFECT_H
-
+#pragma once
 class Player;
 class Board;
 
@@ -39,5 +37,3 @@ class RimCupEffect : public CardEffect {
 public:
     void apply(Player& p, Board& b) override;
 };
-
-#endif

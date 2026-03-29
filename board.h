@@ -1,6 +1,4 @@
-#ifndef BOARD_H
-#define BOARD_H
-
+#pragma once
 #include "observer.h"
 #include <array>
 #include <vector>
@@ -43,5 +41,3 @@ private:
     std::string buildDisplayRow(int positions[], int count, bool academic_style) const;
     std::string getPlayersAt(int pos) const;
 };
-
-#endif

@@ -1,6 +1,4 @@
-#ifndef ACADEMICBUILDING_H
-#define ACADEMICBUILDING_H
-
+#pragma once
 #include "ownablesquare.h"
 #include <string>
 #include <array>
@@ -40,5 +38,3 @@ public:
     std::string getImprovementLine() const override;
     void getDisplayLines(std::string lines[4], const std::string& players) const override;
 };
-
-#endif

@@ -1,6 +1,4 @@
-#ifndef AUCTION_H
-#define AUCTION_H
-
+#pragma once
 #include <vector>
 
 class OwnableSquare;
@@ -12,5 +10,3 @@ public:
     // Returns the winning player (or nullptr if everyone withdraws - property stays unowned)
     void run(OwnableSquare* property, std::vector<Player*>& players);
 };
-
-#endif

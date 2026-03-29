@@ -1,6 +1,4 @@
-#ifndef RESIDENCE_H
-#define RESIDENCE_H
-
+#pragma once
 #include "ownablesquare.h"
 
 class Board;
@@ -15,5 +13,3 @@ public:
     void landOn(Player& p, Board& b) override;
     void getDisplayLines(std::string lines[4], const std::string& players) const override;
 };
-
-#endif

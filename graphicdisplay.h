@@ -1,6 +1,4 @@
-#ifndef GRAPHICDISPLAY_H
-#define GRAPHICDISPLAY_H
-
+#pragma once
 #include "observer.h"
 #include <vector>
 #include <string>
@@ -34,5 +32,3 @@ private:
     int squareRow(int pos) const;
     int blockColor(const std::string& block) const;
 };
-
-#endif

@@ -1,6 +1,4 @@
-#ifndef SQUARE_H
-#define SQUARE_H
-
+#pragma once
 #include <string>
 
 class Player;
@@ -24,5 +22,3 @@ public:
     // line[0] = top, line[1] = improvement/second name, line[2] = name/third, line[3] = players
     virtual void getDisplayLines(std::string lines[4], const std::string& players) const = 0;
 };
-
-#endif

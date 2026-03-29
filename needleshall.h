@@ -1,6 +1,4 @@
-#ifndef NEEDLESHALL_H
-#define NEEDLESHALL_H
-
+#pragma once
 #include "nonownable.h"
 #include "cardeffect.h"
 #include <vector>
@@ -17,5 +15,3 @@ public:
     void landOn(Player& p, Board& b) override;
     void getDisplayLines(std::string lines[4], const std::string& players) const override;
 };
-
-#endif

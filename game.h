@@ -1,6 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
-
+#pragma once
 #include <vector>
 #include <string>
 #include <random>
@@ -67,5 +65,3 @@ private:
     std::pair<int,int> rollDice(int d1 = -1, int d2 = -1);
     int activePlayers() const;
 };
-
-#endif
