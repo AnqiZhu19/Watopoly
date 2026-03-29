@@ -2,10 +2,11 @@
 #include "nonownable.h"
 #include "cardeffect.h"
 #include <vector>
+#include <memory>
 #include <random>
 
 class SLC : public NonOwnable {
-    std::vector<CardEffect*> effects;
+    std::vector<std::unique_ptr<CardEffect>> effects;
     std::vector<int> weights;  // numerators for probability (denominator = 24)
     std::mt19937& rng;
 

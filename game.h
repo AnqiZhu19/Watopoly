@@ -1,17 +1,18 @@
 #pragma once
+#include "player.h"
 #include <vector>
+#include <memory>
 #include <string>
 #include <random>
 
-class Player;
 class Board;
 class OwnableSquare;
 class GraphicDisplay;
 
 class Game {
-    std::vector<Player*> players;
-    Board* board;
-    GraphicDisplay* gfx;
+    std::vector<std::unique_ptr<Player>> players;
+    std::unique_ptr<Board> board;
+    std::unique_ptr<GraphicDisplay> gfx;
     bool graphicMode;
     int currentPlayerIdx;
     bool testingMode;

@@ -54,46 +54,44 @@ void Board::buildBoard(std::mt19937& rng) {
 
     // Create academic buildings
     for (auto& ab : abData) {
-        squares[ab.pos] = new AcademicBuilding(ab.name, ab.pos, ab.price,
-                                                ab.improveCost, ab.block, ab.tuition);
+        squares[ab.pos] = std::make_unique<AcademicBuilding>(ab.name, ab.pos, ab.price,
+                                                              ab.improveCost, ab.block, ab.tuition);
     }
 
     // Residences (price = 200)
-    squares[5]  = new Residence("MKV", 5);
-    squares[15] = new Residence("UWP", 15);
-    squares[25] = new Residence("V1",  25);
-    squares[36] = new Residence("REV", 36);
+    squares[5]  = std::make_unique<Residence>("MKV", 5);
+    squares[15] = std::make_unique<Residence>("UWP", 15);
+    squares[25] = std::make_unique<Residence>("V1",  25);
+    squares[36] = std::make_unique<Residence>("REV", 36);
 
     // Gyms (price = 150)
-    squares[12] = new Gym("PAC", 12);
-    squares[28] = new Gym("CIF", 28);
+    squares[12] = std::make_unique<Gym>("PAC", 12);
+    squares[28] = std::make_unique<Gym>("CIF", 28);
 
     // Non-ownable squares
-    squares[0]  = new CollectOSAP();
-    squares[10] = new DCTimsLine();
-    squares[20] = new GooseNesting();
-    squares[30] = new GoToTims();
-    squares[4]  = new Tuition();
-    squares[38] = new CoopFee();
+    squares[0]  = std::make_unique<CollectOSAP>();
+    squares[10] = std::make_unique<DCTimsLine>();
+    squares[20] = std::make_unique<GooseNesting>();
+    squares[30] = std::make_unique<GoToTims>();
+    squares[4]  = std::make_unique<Tuition>();
+    squares[38] = std::make_unique<CoopFee>();
 
     // SLC squares
-    squares[2]  = new SLC("SLC", 2,  rng);
-    squares[17] = new SLC("SLC", 17, rng);
-    squares[33] = new SLC("SLC", 33, rng);
+    squares[2]  = std::make_unique<SLC>("SLC", 2,  rng);
+    squares[17] = std::make_unique<SLC>("SLC", 17, rng);
+    squares[33] = std::make_unique<SLC>("SLC", 33, rng);
 
     // Needles Hall squares
-    squares[7]  = new NeedlesHall("Needles Hall", 7,  rng);
-    squares[22] = new NeedlesHall("Needles Hall", 22, rng);
-    squares[35] = new NeedlesHall("Needles Hall", 35, rng);
+    squares[7]  = std::make_unique<NeedlesHall>("Needles Hall", 7,  rng);
+    squares[22] = std::make_unique<NeedlesHall>("Needles Hall", 22, rng);
+    squares[35] = std::make_unique<NeedlesHall>("Needles Hall", 35, rng);
 }
 
 Board::Board(std::mt19937& rng) : players{nullptr} {
     buildBoard(rng);
 }
 
-Board::~Board() {
-    for (auto* sq : squares) delete sq;
-}
+Board::~Board() = default;
 
 void Board::notify() {
     display();
@@ -103,7 +101,7 @@ void Board::notify() {
 std::string Board::getPlayersAt(int pos) const {
     if (!players) return "";
     std::string result;
-    for (auto* p : *players) {
+    for (const auto& p : *players) {
         if (!p->isBankrupt() && p->getPosition() == pos) {
             result += p->getPiece();
         }
@@ -113,8 +111,8 @@ std::string Board::getPlayersAt(int pos) const {
 
 int Board::countResidencesOwned(const Player* owner) const {
     int count = 0;
-    for (auto* sq : squares) {
-        auto* res = dynamic_cast<Residence*>(sq);
+    for (const auto& sq : squares) {
+        auto* res = dynamic_cast<Residence*>(sq.get());
         if (res && res->getOwner() == owner) ++count;
     }
     return count;
@@ -122,8 +120,8 @@ int Board::countResidencesOwned(const Player* owner) const {
 
 int Board::countGymsOwned(const Player* owner) const {
     int count = 0;
-    for (auto* sq : squares) {
-        auto* gym = dynamic_cast<Gym*>(sq);
+    for (const auto& sq : squares) {
+        auto* gym = dynamic_cast<Gym*>(sq.get());
         if (gym && gym->getOwner() == owner) ++count;
     }
     return count;
@@ -131,8 +129,8 @@ int Board::countGymsOwned(const Player* owner) const {
 
 bool Board::ownsMonopoly(const Player* owner, const std::string& block) const {
     if (!owner) return false;
-    for (auto* sq : squares) {
-        auto* ab = dynamic_cast<AcademicBuilding*>(sq);
+    for (const auto& sq : squares) {
+        auto* ab = dynamic_cast<AcademicBuilding*>(sq.get());
         if (ab && ab->getMonopolyBlock() == block) {
             if (ab->getOwner() != owner) return false;
         }
@@ -142,8 +140,8 @@ bool Board::ownsMonopoly(const Player* owner, const std::string& block) const {
 
 int Board::countImprovementsInBlock(const std::string& block) const {
     int count = 0;
-    for (auto* sq : squares) {
-        auto* ab = dynamic_cast<AcademicBuilding*>(sq);
+    for (const auto& sq : squares) {
+        auto* ab = dynamic_cast<AcademicBuilding*>(sq.get());
         if (ab && ab->getMonopolyBlock() == block) count += ab->getImprovements();
     }
     return count;
@@ -152,12 +150,12 @@ int Board::countImprovementsInBlock(const std::string& block) const {
 int Board::totalTimsCups() const {
     if (!players) return 0;
     int total = 0;
-    for (auto* p : *players) total += p->getTimsCups();
+    for (const auto& p : *players) total += p->getTimsCups();
     return total;
 }
 
 int Board::findSquare(const std::string& name) const {
-    for (auto* sq : squares) {
+    for (const auto& sq : squares) {
         if (sq->getName() == name) return sq->getPosition();
     }
     return -1;
@@ -189,7 +187,7 @@ void Board::display() const {
     std::string topLines[11][4];
     for (int c = 0; c < 11; ++c) {
         std::string pl = getPlayersAt(topRow[c]);
-        getLines(squares[topRow[c]], pl, topLines[c]);
+        getLines(squares[topRow[c]].get(), pl, topLines[c]);
     }
     for (int row = 0; row < 4; ++row) {
         std::cout << "|";
@@ -220,8 +218,8 @@ void Board::display() const {
         std::string lLines[4], rLines[4];
         std::string lPl = getPlayersAt(leftCol[i]);
         std::string rPl = getPlayersAt(rightCol[i]);
-        getLines(squares[leftCol[i]], lPl, lLines);
-        getLines(squares[rightCol[i]], rPl, rLines);
+        getLines(squares[leftCol[i]].get(), lPl, lLines);
+        getLines(squares[rightCol[i]].get(), rPl, rLines);
 
         // Print 5 lines for this row
         // Lines 0-3: content
@@ -257,7 +255,7 @@ void Board::display() const {
     std::string botLines[11][4];
     for (int c = 0; c < 11; ++c) {
         std::string pl = getPlayersAt(botRow[c]);
-        getLines(squares[botRow[c]], pl, botLines[c]);
+        getLines(squares[botRow[c]].get(), pl, botLines[c]);
     }
     for (int row = 0; row < 4; ++row) {
         std::cout << "|";

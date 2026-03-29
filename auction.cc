@@ -6,13 +6,13 @@
 #include <string>
 #include <algorithm>
 
-void Auction::run(OwnableSquare* property, std::vector<Player*>& players) {
+void Auction::run(OwnableSquare* property, std::vector<std::unique_ptr<Player>>& players) {
     std::cout << "\n=== Auction for " << property->getName()
               << " (price: $" << property->getPrice() << ") ===\n";
 
     std::vector<Player*> bidders;
-    for (auto* p : players) {
-        if (!p->isBankrupt()) bidders.push_back(p);
+    for (const auto& p : players) {
+        if (!p->isBankrupt()) bidders.push_back(p.get());
     }
 
     if (bidders.empty()) {

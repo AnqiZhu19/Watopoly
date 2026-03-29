@@ -27,7 +27,7 @@ static const char* OWNABLE_NAMES[] = {
 };
 static const int NUM_OWNABLES = 28;
 
-void SaveManager::save(const std::string& file, const std::vector<Player*>& players, const Board& board) {
+void SaveManager::save(const std::string& file, const std::vector<std::unique_ptr<Player>>& players, const Board& board) {
     std::ofstream out(file);
     if (!out) {
         std::cerr << "Cannot open file for saving: " << file << "\n";
@@ -35,7 +35,7 @@ void SaveManager::save(const std::string& file, const std::vector<Player*>& play
     }
 
     out << players.size() << "\n";
-    for (auto* p : players) {
+    for (const auto& p : players) {
         out << p->getName() << " " << p->getPiece() << " "
             << p->getTimsCups() << " " << p->getMoney() << " "
             << p->getPosition();
@@ -69,7 +69,7 @@ void SaveManager::save(const std::string& file, const std::vector<Player*>& play
     std::cout << "Game saved to " << file << "\n";
 }
 
-bool SaveManager::load(const std::string& file, std::vector<Player*>& players, Board& board) {
+bool SaveManager::load(const std::string& file, std::vector<std::unique_ptr<Player>>& players, Board& board) {
     std::ifstream in(file);
     if (!in) {
         std::cerr << "Cannot open file: " << file << "\n";
@@ -94,24 +94,21 @@ bool SaveManager::load(const std::string& file, std::vector<Player*>& players, B
         // Validate loaded values
         if (name == "BANK") {
             std::cerr << "Invalid save file: player named 'BANK' is not allowed.\n";
-            for (auto* pl : players) delete pl;
             players.clear();
             return false;
         }
         if (money < 0) {
             std::cerr << "Invalid save file: negative money for player " << name << ".\n";
-            for (auto* pl : players) delete pl;
             players.clear();
             return false;
         }
         if (position == 30) {
             std::cerr << "Invalid save file: position 30 (Go To Tims) is not a valid starting position.\n";
-            for (auto* pl : players) delete pl;
             players.clear();
             return false;
         }
 
-        Player* p = new Player(name, piece, money);
+        auto p = std::make_unique<Player>(name, piece, money);
         p->setPosition(position, false);
         p->setTimsCups(cups);
 
@@ -123,8 +120,6 @@ bool SaveManager::load(const std::string& file, std::vector<Player*>& players, B
                 ss >> turns;
                 if (turns >= 3) {
                     std::cerr << "Invalid save file: turnsInTims value " << turns << " is invalid (must be < 3).\n";
-                    delete p;
-                    for (auto* pl : players) delete pl;
                     players.clear();
                     return false;
                 }
@@ -132,15 +127,14 @@ bool SaveManager::load(const std::string& file, std::vector<Player*>& players, B
                 p->setTurnsInTims(turns);
             }
         }
-        players.push_back(p);
+        players.push_back(std::move(p));
     }
 
     // Validate total Tims cups across all players
     int totalCups = 0;
-    for (auto* p : players) totalCups += p->getTimsCups();
+    for (const auto& p : players) totalCups += p->getTimsCups();
     if (totalCups > 4) {
         std::cerr << "Invalid save file: total Roll Up the Rim cups (" << totalCups << ") exceeds 4.\n";
-        for (auto* p : players) delete p;
         players.clear();
         return false;
     }
@@ -158,7 +152,7 @@ bool SaveManager::load(const std::string& file, std::vector<Player*>& players, B
 
         if (ownerName != "BANK") {
             // Find player with this name
-            for (auto* p : players) {
+            for (const auto& p : players) {
                 if (p->getName() == ownerName) {
                     p->addProperty(sq);
                     break;

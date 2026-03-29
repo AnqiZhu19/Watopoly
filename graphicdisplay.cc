@@ -44,13 +44,11 @@ static const int PIECE_COLORS[6] = {
 
 // ─── Construction ──────────────────────────────────────────────────────────
 
-GraphicDisplay::GraphicDisplay(Board* b, std::vector<Player*>* p)
-    : window{new Xwindow(BOARD_PX, BOARD_PX + PANEL_H)},
+GraphicDisplay::GraphicDisplay(Board* b, std::vector<std::unique_ptr<Player>>* p)
+    : window{std::make_unique<Xwindow>(BOARD_PX, BOARD_PX + PANEL_H)},
       board{b}, players{p} {}
 
-GraphicDisplay::~GraphicDisplay() {
-    delete window;
-}
+GraphicDisplay::~GraphicDisplay() = default;
 
 // ─── Observer interface ────────────────────────────────────────────────────
 
@@ -160,9 +158,9 @@ void GraphicDisplay::drawSquare(int pos) {
     // Player pieces at this square
     std::vector<Player*> here;
     if (players) {
-        for (auto* p : *players) {
+        for (const auto& p : *players) {
             if (!p->isBankrupt() && p->getPosition() == pos) {
-                here.push_back(p);
+                here.push_back(p.get());
             }
         }
     }
@@ -176,7 +174,7 @@ void GraphicDisplay::drawSquare(int pos) {
         // Use global player index for color to match the info panel
         int globalIdx = 0;
         for (int j = 0; j < (int)players->size(); ++j) {
-            if ((*players)[j] == here[i]) { globalIdx = j; break; }
+            if ((*players)[j].get() == here[i]) { globalIdx = j; break; }
         }
         int bgColor = PIECE_COLORS[globalIdx % 6];
         window->fillRectangle(px, py, pieceSize, pieceSize, bgColor);
@@ -247,7 +245,7 @@ void GraphicDisplay::drawInfoPanel() {
 
     int colW = BOARD_PX / 6;  // max 6 players
     int idx = 0;
-    for (auto* p : *players) {
+    for (const auto& p : *players) {
         int cx = idx * colW;
         int cy = panelY + 8;
 

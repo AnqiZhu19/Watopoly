@@ -18,19 +18,14 @@
 #include <string>
 
 Game::Game(bool testing, unsigned seed, bool graphic)
-    : board{nullptr}, gfx{nullptr}, graphicMode{graphic},
-      currentPlayerIdx{0}, testingMode{testing},
+    : graphicMode{graphic}, currentPlayerIdx{0}, testingMode{testing},
       rng{seed}, hasRolled{false}, doublesCount{0}, lastDiceSum{0},
       needToPayDebt{false}, debtAmount{0}, creditor{nullptr} {
-    board = new Board(rng);
-    if (graphicMode) gfx = new GraphicDisplay(board, &players);
+    board = std::make_unique<Board>(rng);
+    if (graphicMode) gfx = std::make_unique<GraphicDisplay>(board.get(), &players);
 }
 
-Game::~Game() {
-    for (auto* p : players) delete p;
-    delete board;
-    delete gfx;
-}
+Game::~Game() = default;
 
 static std::string toLower(std::string s) {
     for (char& c : s) if (c >= 'A' && c <= 'Z') c = c - 'A' + 'a';
@@ -83,15 +78,15 @@ void Game::startGame() {
             }
         }
         usedPieces.push_back(piece);
-        players.push_back(new Player(name, piece));
+        players.push_back(std::make_unique<Player>(name, piece));
     }
 
     board->setPlayers(&players);
     // Attach board as observer to each player
-    for (auto* p : players) {
-        p->attach(board);
+    for (const auto& p : players) {
+        p->attach(board.get());
     }
-    if (gfx) { for (auto* p : players) p->attach(gfx); }
+    if (gfx) { for (const auto& p : players) p->attach(gfx.get()); }
     board->display();
     if (gfx) gfx->redraw();
     run();
@@ -102,8 +97,8 @@ void Game::loadGame(const std::string& file) {
         std::cerr << "Failed to load game.\n";
         return;
     }
-    for (auto* p : players) p->attach(board);
-    if (gfx) { for (auto* p : players) p->attach(gfx); }
+    for (const auto& p : players) p->attach(board.get());
+    if (gfx) { for (const auto& p : players) p->attach(gfx.get()); }
     board->display();
     if (gfx) gfx->redraw();
     run();
@@ -121,19 +116,19 @@ std::pair<int,int> Game::rollDice(int d1, int d2) {
 
 int Game::activePlayers() const {
     int count = 0;
-    for (auto* p : players) if (!p->isBankrupt()) ++count;
+    for (const auto& p : players) if (!p->isBankrupt()) ++count;
     return count;
 }
 
 bool Game::isGameOver() const { return activePlayers() <= 1; }
 
 Player* Game::getWinner() const {
-    for (auto* p : players) if (!p->isBankrupt()) return p;
+    for (const auto& p : players) if (!p->isBankrupt()) return p.get();
     return nullptr;
 }
 
 Player* Game::findPlayer(const std::string& name) const {
-    for (auto* p : players) if (p->getName() == name) return p;
+    for (const auto& p : players) if (p->getName() == name) return p.get();
     return nullptr;
 }
 
@@ -811,7 +806,7 @@ void Game::doUnmortgage(Player& p, const std::string& prop) {
 }
 
 void Game::doAll() const {
-    for (auto* p : players) {
+    for (const auto& p : players) {
         if (!p->isBankrupt()) p->displayAssets();
     }
 }

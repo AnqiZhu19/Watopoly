@@ -1,23 +1,24 @@
 #pragma once
 #include "observer.h"
+#include "player.h"
 #include <vector>
+#include <memory>
 #include <string>
 
 class Board;
-class Player;
 class Xwindow;
 
 class GraphicDisplay : public Observer {
-    Xwindow* window;
+    std::unique_ptr<Xwindow> window;
     Board* board;
-    std::vector<Player*>* players;
+    std::vector<std::unique_ptr<Player>>* players;
 
-    static const int CELL = 60;       // pixels per board cell (kept small to fit macOS screens)
-    static const int BOARD_PX = 660;  // 11 * CELL
-    static const int PANEL_H = 90;    // info panel height below board
+    static constexpr int CELL = 60;       // pixels per board cell (kept small to fit macOS screens)
+    static constexpr int BOARD_PX = 660;  // 11 * CELL
+    static constexpr int PANEL_H = 90;    // info panel height below board
 
 public:
-    GraphicDisplay(Board* b, std::vector<Player*>* p);
+    GraphicDisplay(Board* b, std::vector<std::unique_ptr<Player>>* p);
     ~GraphicDisplay() override;
 
     void notify() override;

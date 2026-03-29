@@ -18,19 +18,17 @@ SLC::SLC(const std::string& name, int position, std::mt19937& rng)
     : NonOwnable{name, position}, rng{rng} {
     // Weights: index 0=back3, 1=back2, 2=back1, 3=fwd1, 4=fwd2, 5=fwd3, 6=tims, 7=osap
     weights = {3, 4, 4, 3, 4, 4, 1, 1};
-    effects.push_back(new MoveEffect(-3));
-    effects.push_back(new MoveEffect(-2));
-    effects.push_back(new MoveEffect(-1));
-    effects.push_back(new MoveEffect(1));
-    effects.push_back(new MoveEffect(2));
-    effects.push_back(new MoveEffect(3));
-    effects.push_back(new GotoEffect(10));   // DC Tims Line
-    effects.push_back(new GotoEffect(0));    // Collect OSAP
+    effects.push_back(std::make_unique<MoveEffect>(-3));
+    effects.push_back(std::make_unique<MoveEffect>(-2));
+    effects.push_back(std::make_unique<MoveEffect>(-1));
+    effects.push_back(std::make_unique<MoveEffect>(1));
+    effects.push_back(std::make_unique<MoveEffect>(2));
+    effects.push_back(std::make_unique<MoveEffect>(3));
+    effects.push_back(std::make_unique<GotoEffect>(10));   // DC Tims Line
+    effects.push_back(std::make_unique<GotoEffect>(0));    // Collect OSAP
 }
 
-SLC::~SLC() {
-    for (auto* e : effects) delete e;
-}
+SLC::~SLC() = default;
 
 void SLC::landOn(Player& p, Board& b) {
     // 1% chance of RimCup if fewer than 4 cups active

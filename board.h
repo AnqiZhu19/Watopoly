@@ -1,23 +1,24 @@
 #pragma once
 #include "observer.h"
+#include "player.h"
 #include <array>
 #include <vector>
+#include <memory>
 #include <string>
 #include <random>
 
 class Square;
-class Player;
 
 class Board : public Observer {
-    std::array<Square*, 40> squares;
-    std::vector<Player*>* players;  // pointer to game's player list (not owned)
+    std::array<std::unique_ptr<Square>, 40> squares;
+    std::vector<std::unique_ptr<Player>>* players;  // pointer to game's player list (not owned)
 
 public:
     Board(std::mt19937& rng);
     ~Board();
 
-    Square* getSquare(int pos) const { return squares[pos]; }
-    void setPlayers(std::vector<Player*>* p) { players = p; }
+    Square* getSquare(int pos) const { return squares[pos].get(); }
+    void setPlayers(std::vector<std::unique_ptr<Player>>* p) { players = p; }
 
     void notify() override;   // redraws board
     void display() const;
